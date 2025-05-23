@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nama_properti');
             $table->longText('alamat');
-            $table->longText('fasilitas');
             $table->enum('tipe', ['putra', 'putri', 'campur', 'kontrakan', 'kost']);
             $table->enum('sewa_jenis', ['bulanan', 'tahunan']);
             $table->integer('harga');

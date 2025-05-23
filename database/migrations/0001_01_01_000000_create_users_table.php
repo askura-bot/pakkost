@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'pemilik'])->default('pemilik');
             $table->string('no_wa')->nullable();
-            $table->string('img_ktp')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

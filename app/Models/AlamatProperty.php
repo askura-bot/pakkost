@@ -6,14 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class KostFoto extends Model
+class AlamatProperty extends Model
 {
     use HasFactory;
 
+    protected $table = 'alamat_properties';
+
     protected $fillable = [
         'property_id',
-        'file_path',
-        'link_VT',
+        'kelurahan',
+        'jalan',
+        'rt',
+        'rw',
     ];
 
     public function property(): BelongsTo
@@ -21,4 +25,3 @@ class KostFoto extends Model
         return $this->belongsTo(Property::class);
     }
 }
-

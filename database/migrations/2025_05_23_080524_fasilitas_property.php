@@ -4,27 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
-        Schema::create('kost_fotos', function (Blueprint $table) {
+        Schema::create('fasilitas_property', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_id')->constrained('propertys')->onDelete('cascade');
-            $table->string('file_path'); // nama file gambar
-            $table->string('link_VT')->nullable();
+            $table->foreignId('fasilitas_id')->constrained('fasilitas')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('kost_fotos');
+        Schema::dropIfExists('fasilitas_property');
     }
 };
