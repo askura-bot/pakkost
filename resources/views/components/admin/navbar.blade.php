@@ -1,20 +1,22 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+    <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <!-- Logo -->
-            <div class="shrink-0 flex items-center">
-                <a href="{{ route('dashboard.admin') }}">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                </a>
-            </div>
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                <!-- Logo -->
+                <div class="shrink-0 flex items-center">
+                    <a href="{{ route('dashboard.admin') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    </a>
+                </div>
 
-            <!-- Navigation Links Left -->
-            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <x-nav-link :href="route('dashboard.pemilik')" :active="request()->routeIs('dashboard.pemilik')">
-                    {{ __('Owner') }}
-                </x-nav-link>
+                <!-- Navigation Links Left -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('dashboard.admin')" :active="request()->routeIs('dashboard.admin')">
+                        {{ __('Admin') }}
+                    </x-nav-link>
+                </div>
             </div>
-        </div>
 
             <!-- Navigation Links Right -->
             <div class="hidden space-x-6 sm:flex sm:items-center">
@@ -22,18 +24,18 @@
                    class="text-sm {{ request()->routeIs('dashboard.admin') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
                     Dashboard
                 </a>
-                {{-- <a href="#"
-                   class="text-sm {{ request()->routeIs('property.index') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                <a href="{{ route('properties.show') }}"
+                   class="text-sm {{ request()->routeIs('properties.show') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
                     Propertys
                 </a>
-                <a href="{{ route('owner.index') }}"
-                   class="text-sm {{ request()->routeIs('owner.index') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
-                    Owner
+                <a href="{{ route('owner.show') }}"
+                   class="text-sm {{ request()->routeIs('owner.show') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                    Owners
                 </a>
-                <a href="{{ route('admin.index') }}"
-                   class="text-sm {{ request()->routeIs('admin.index') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
-                    Admin
-                </a> --}}
+                <a href="{{ route('admin.show') }}"
+                   class="text-sm {{ request()->routeIs('admin.show') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                    Admins
+                </a>
 
                 <!-- Settings Dropdown -->
                 <div class="ms-6">
@@ -66,14 +68,12 @@
                 </div>
             </div>
 
-            <!-- Hamburger Menu (Mobile) -->
+            <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16"/>
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12"/>
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -81,40 +81,41 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': ! open }" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <a href="{{ route('dashboard.admin') }}"
-               class="block px-4 py-2 {{ request()->routeIs('dashboard.admin') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                dashboard
-            </a>
-            {{-- <a href="{{ route('property.index') }}"
-               class="block px-4 py-2 {{ request()->routeIs('property.index') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                Propertys
-            </a>
-            <a href="{{ route('owner.index') }}"
-               class="block px-4 py-2 {{ request()->routeIs('owner.index') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                Owner
-            </a>
-            <a href="{{ route('admin.index') }}"
-               class="block px-4 py-2 {{ request()->routeIs('admin.index') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                Admin
-            </a> --}}
+            <x-responsive-nav-link :href="route('dashboard.admin')" :active="request()->routeIs('dashboard.admin')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('properties.show')" :active="request()->routeIs('properties.show')">
+                {{ __('Propertys') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('owner.show')" :active="request()->routeIs('owner.show')">
+                {{ __('Owners') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.show')" :active="request()->routeIs('admin.show')">
+                {{ __('Admins') }}
+            </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings -->
+        <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ explode(' ', Auth::user()->name)[0] }}</div>
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
+
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
+
                     <x-responsive-nav-link :href="route('logout')"
-                                           onclick="event.preventDefault(); this.closest('form').submit();">
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

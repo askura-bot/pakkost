@@ -37,12 +37,12 @@ class Property extends Model
 
     public function ulasans(): HasMany
     {
-        return $this->hasMany(Ulasan::class);
+        return $this->hasMany(Ulasan::class, 'property_id');
     }
 
     public function alamatProperty(): HasOne
     {
-        return $this->hasOne(AlamatProperty::class);
+        return $this->hasOne(AlamatProperty::class, 'property_id');
     }
 
     public function fasilitas(): BelongsToMany

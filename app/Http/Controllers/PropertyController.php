@@ -96,11 +96,18 @@ class PropertyController extends Controller
      * Display the specified resource.
      */
     public function show(Property $property)
-    {
-        
-    }
-
+{
+    $properties = Property::with([
+        'pemilik.alamat',
+        'fotos',
+        'ulasans', // Pastikan ini ada
+        'alamatProperty',
+        'fasilitas'
+    ])->get();
     
+    return view('content.admin.propertys', compact('properties'));
+}
+
     public function edit($id)
     {
     $property = Property::with(['alamatProperty', 'fasilitas', 'fotos'])

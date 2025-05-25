@@ -10,6 +10,8 @@ class Ulasan extends Model
 {
     use HasFactory;
 
+    protected $table = 'ulasan';
+
     protected $fillable = [
         'property_id',
         'username',
