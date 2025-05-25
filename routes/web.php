@@ -7,8 +7,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PemilikController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\UserController;
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('welcome');
 });
 
@@ -16,14 +17,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/home', function () {
-    return view('content.user.index');
-});
+
 
 // Route::middleware(['auth', 'verified'])->group(function () {
 //     Route::get('/dashboard-admin', [AdminController::class, 'index'])->name('dashboard.admin'); //hanya admin yang boleh mengakses
 //     Route::get('/dashboard-pemilik', [PemilikController::class, 'index'])->name('dashboard.pemilik'); //hanya pemilik yang boleh mengakses
 // });
+
+
 
 Route::middleware(['auth', RoleMiddleware::class . ':pemilik'])->group(function () {
     Route::get('/dashboard-pemilik', [PemilikController::class, 'index'])->name('dashboard.pemilik'); //Menampilkan halaman dashboard pemilik
@@ -43,10 +44,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function ()
     Route::get('/owners', [AdminController::class, 'owner'])->name('owner.show'); //Menampilkan seluruh akun owner
     Route::get('/pemilik/{user}', [AdminController::class, 'detail'])->name('pemilik.show')->where('user', '[0-9]+'); // Hanya menerima parameter numerik (ID user)
     Route::get('/admin', [AdminController::class, 'admin'])->name('admin.show'); //Menampilkan seluruh akun admin
-
+    Route::get('/create-user', [AdminController::class, 'create'])->name('create.user'); //Menampilkan halaman form tambah akun
+    Route::post('/store-user', [AdminController::class, 'store'])->name('store.user'); //Mengirim data form tambah akun
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit'); //setiap user yang login boleh mengakses
@@ -62,6 +62,11 @@ Route::middleware('auth')->group(function () {
     // Route::get('/property/{property}', [AdminController::class, 'show'])->name('detail.show'); //hanya admin yang boleh mengakses
     
 });
+
+Route::get('/', [UserController::class, 'index'])->name('home');
+Route::get('/contact', [UserController::class, 'contact'])->name('contact');
+Route::get('/{property}', [UserController::class, 'show'])->name('detail'); //Menampilkan halaman detail property
+Route::post('/{property}/ulasan', [UserController::class, 'storeUlasan'])->name('ulasan.store');
 
 
 

@@ -3,7 +3,25 @@
 @section('content')
         <div class="max-w-3xl mx-auto py-6 px-4">
             <h1 class="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-300">Edit Properti</h1>
-        
+            
+        @if(session('success'))
+        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-md relative" x-data="{ show: true }" 
+             x-show="show"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform scale-90"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-90">
+            <span>{{ session('success') }}</span>
+            <button @click="show = false" class="absolute top-1/2 right-4 -translate-y-1/2">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        @endif
+
             <!-- Form Update -->
             <form action="{{ route('pemilik.property.update', $property->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf

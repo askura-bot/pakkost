@@ -12,15 +12,16 @@ class PemilikController extends Controller
 {
     public function index()
     {
-        // Ambil properti milik user yang sedang login
-        $properties = Auth::user()->properties()
-                        ->withCount('fotos')
-                        ->latest()
-                        ->get();
-
+        $user = Auth::user();
+        
+        $properties = $user->properties()
+            ->withCount('fotos')
+            ->latest()
+            ->get();
+    
         return view('content.pemilik.dashboard', [
             'properties' => $properties,
-            'total_properti' => $properties->count()
+            'total_properti' => $user->properties()->count()
         ]);
     }
 

@@ -1,7 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container mx-auto px-4 py-6">
+
+    @if(session('success'))
+        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-md relative" x-data="{ show: true }" 
+             x-show="show"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform scale-90"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-90">
+            <span>{{ session('success') }}</span>
+            <button @click="show = false" class="absolute top-1/2 right-4 -translate-y-1/2">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        @endif
+
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
         <h1 class="text-2xl font-bold dark:text-white mb-4 sm:mb-0">Daftar Properti Anda</h1>
         <a href="{{ route('property.create') }}" 

@@ -22,7 +22,9 @@
             @include('components.user.navbar')
 
             {{-- Header --}}
-            @include('components.user.header')
+            @unless(request()->routeIs('login'))
+                @include('components.user.header')
+            @endunless
 
             {{-- Content --}}
             @yield('content')

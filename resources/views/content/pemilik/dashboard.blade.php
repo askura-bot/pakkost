@@ -42,9 +42,41 @@
             </a>
         </div>
 
-        <!-- Daftar Properti -->
-        <div class="mt-8">
-            <!-- ... existing property list code ... -->
+        <!-- History Penambahan Properti -->
+        <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                History Penambahan Properti
+            </h2>
+            
+            <div class="space-y-4">
+                @forelse($properties as $property)
+                <div class="flex items-start p-4 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+                    <div class="flex-shrink-0 mt-1">
+                        <span class="w-8 h-8 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <div class="text-sm text-gray-600 dark:text-gray-300">
+                            Anda telah menambahkan properti 
+                            <a href="{{ route('pemilik.property.edit', $property) }}" class="font-medium text-green-600 dark:text-green-400 hover:underline">
+                                {{ $property->nama_properti }}
+                            </a>
+                        </div>
+                        <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            pada {{ $property->created_at->translatedFormat('l, d F Y H:i') }}
+                            ({{ $property->created_at->diffForHumans() }})
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div class="text-center py-4 text-gray-500 dark:text-gray-400">
+                    Belum ada history penambahan properti
+                </div>
+                @endforelse
+            </div>
         </div>
     </div>
 </div>

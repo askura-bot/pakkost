@@ -1,13 +1,22 @@
 <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        <a href="#" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">MyWebsite</a><!-- Desktop menu -->
-        <div class="hidden md:flex space-x-8">
-          <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">Home</a>
-          <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">About</a>
-          <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">Services</a>
-          <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">Contact</a>
-        </div>
+        <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">PakKost</a><!-- Desktop menu -->
+          <div class="hidden md:flex space-x-8">
+                <a href="{{ route('home') }}"
+                   class="{{ request()->routeIs('home') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                    Home
+                </a>
+                <a href="{{ route('contact') }}"
+                   class="{{ request()->routeIs('contact') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                    Contact
+                </a>
+                <span>|</span>
+                <a href="{{ route('login') }}"
+                   class="{{ request()->routeIs('login') ? 'font-bold text-indigo-600' : 'text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
+                    Owner Centre
+                </a>
+          </div>
         <!-- Mobile menu button -->
         <div class="md:hidden">
           <button @click="open = !open" aria-label="Toggle Menu" type="button"

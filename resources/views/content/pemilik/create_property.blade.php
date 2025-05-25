@@ -3,19 +3,30 @@
 @section('content')
 <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 transition-colors duration-300">
+
         <!-- Header Section -->
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Tambah Properti Baru</h2>
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Isi form berikut untuk menambahkan properti baru</p>
             
-            @if(session('success'))
-            <div class="mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg flex items-center gap-3">
-                <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        @if(session('success'))
+        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-800 rounded-md relative" x-data="{ show: true }" 
+             x-show="show"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform scale-90"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-90">
+            <span>{{ session('success') }}</span>
+            <button @click="show = false" class="absolute top-1/2 right-4 -translate-y-1/2">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
-                <span class="text-green-600 dark:text-green-400 text-sm">{{ session('success') }}</span>
-            </div>
-            @endif
+            </button>
+        </div>
+        @endif
+        
         </div>
 
         <form action="{{ route('property.store') }}" method="POST" enctype="multipart/form-data">
