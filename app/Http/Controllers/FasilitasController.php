@@ -34,7 +34,7 @@ class FasilitasController extends Controller
         ]);
     
         Fasilitas::create($request->only('nama_fasilitas'));
-        return redirect()->route('fasilitas.index')->with('success', 'Fasilitas berhasil ditambahkan');
+        return redirect()->route('fasilitas.show')->with('success', 'Fasilitas berhasil ditambahkan');
     }
 
     /**
@@ -63,7 +63,7 @@ class FasilitasController extends Controller
         ]);
     
         $fasilitas->update($request->only('nama_fasilitas'));
-        return redirect()->route('fasilitas.index')->with('success', 'Fasilitas berhasil diperbarui.');
+        return redirect()->route('fasilitas.show')->with('success', 'Fasilitas berhasil diperbarui.');
     }
 
     /**
@@ -72,6 +72,6 @@ class FasilitasController extends Controller
     public function destroy(Fasilitas $fasilitas)
     {
         $fasilitas->delete();
-    return redirect()->route('fasilitas.index')->with('success', 'Fasilitas berhasil dihapus.');
+    return redirect()->route('fasilitas.show')->with('success', 'Fasilitas berhasil dihapus.');
     }
 }
