@@ -29,50 +29,53 @@
                @csrf
 
                <div class="mb-4">
-                <!-- Input untuk user non-login -->
-                @guest
-                <div class="space-y-4">
-                    <div>
-                        <x-input-label for="username" value="Nama" />
-                        <x-text-input id="username" name="username" class="w-full mt-1" required />
+               <!-- Input untuk user non-login -->
+                    @guest
+                    <div class="space-y-4">
+                        <div>
+                            <x-input-label for="username" value="Nama" />
+                            <x-text-input id="username" name="username" class="w-full mt-1" required />
+                        </div>
                     </div>
-                </div>
-                @endguest
+                    @endguest
         
-                <!-- Input rating dan komentar -->
-                <div class="mt-4">
-                    <label class="block text-lg font-medium text-gray-800 dark:text-gray-200 mb-2">
-                        Beri Rating
-                    </label>
-
-                    <div class="flex justify-center space-x-2 mb-4">
-                        @for($i = 1; $i <= 5; $i++)
+                    <!-- Input rating dan komentar -->
+                    <div class="mt-4">
+                        <label class="block text-lg font-medium text-gray-800 dark:text-gray-200 mb-2">
+                            Beri Rating 
+                        </label>
+                    
+                        <div class="flex justify-center space-x-2 mb-4">
+                            @for($i = 1; $i <= 5; $i++)
                             <button type="button" 
-                                    @click="rating = {{ $i }}"
+                                    @click="rating = (rating === {{ $i }} ? 0 : {{ $i }})"
                                     @mouseover="hoverRating = {{ $i }}" 
                                     @mouseleave="hoverRating = 0"
                                     class="w-10 h-10">
                                 <svg class="w-8 h-8 transition-colors duration-200" 
-                                     :class="{
-                                         'text-yellow-400 fill-current': {{ $i }} <= (hoverRating || rating),
-                                         'text-gray-300 dark:text-gray-600': {{ $i }} > (hoverRating || rating)
-                                     }" 
-                                     stroke="currentColor" 
-                                     viewBox="0 0 20 20">
+                                    :class="{
+                                        'text-yellow-400 fill-current': {{ $i }} <= (hoverRating || rating),
+                                        'text-gray-300 dark:text-gray-600': {{ $i }} > (hoverRating || rating)
+                                    }" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
                             </button>
                         @endfor
+                        </div>
+                        <input type="hidden" name="rating" x-model="rating">
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
+                            Klik bintang untuk memberi rating 
+                        </p>
                     </div>
-                    <input type="hidden" name="rating" x-model="rating">
-                </div>
                 
-                <textarea name="komentar" 
+                    <textarea name="komentar" 
                           class="w-full rounded-lg border-gray-300 dark:bg-gray-700 dark:border-gray-600 mt-4" 
                           rows="4" 
                           placeholder="Tulis ulasan Anda..."
                           required></textarea>
-            </div>
+               </div>
                <div class="flex justify-end space-x-4">
                    <button type="button" 
                            @click="showRatingModal = false" 

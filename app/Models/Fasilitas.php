@@ -10,7 +10,7 @@ class Fasilitas extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama'];
+    protected $fillable = ['nama_fasilitas']; 
 
     public function properties(): BelongsToMany
     {

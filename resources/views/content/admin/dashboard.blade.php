@@ -61,6 +61,44 @@
                     </div>
                 </div>
             </a>
+
+            <!-- Contacts Card -->
+            <a href="{{ route('contacts.index') }}" class="group">
+                <div class="bg-blue-100 dark:bg-blue-900 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-blue-600 dark:text-blue-300 font-medium">Contact Us</p>
+                            <p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-2">
+                                {{ $contactsCount }}
+                            </p>
+                        </div>
+                        <div class="bg-blue-600 dark:bg-blue-700 p-4 rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        
+            <!-- Fasilitas Card -->
+            <a href="{{ route('fasilitas.show') }}" class="group">
+                <div class="bg-green-100 dark:bg-green-900 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-green-600 dark:text-green-300 font-medium">Daftar Fasilitas</p>
+                            <p class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-2">
+                                {{ $fasilitasCount }}
+                            </p>
+                        </div>
+                        <div class="bg-green-600 dark:bg-green-700 p-4 rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
 
         <!-- Recent Activity Section -->

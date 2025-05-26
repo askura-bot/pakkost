@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 
+use App\Models\Contact;
 use App\Models\Property;
+use App\Models\Fasilitas;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -15,6 +17,8 @@ class AdminController extends Controller
         'propertiesCount' => Property::count(),
         'ownersCount' => User::where('role', 'pemilik')->count(),
         'adminsCount' => User::where('role', 'admin')->count(),
+        'contactsCount' => Contact::count(),
+        'fasilitasCount' => Fasilitas::count(),
         'recentProperties' => Property::with('pemilik')
             ->latest()
             ->limit(10)
@@ -31,7 +35,9 @@ class AdminController extends Controller
         'fotos',
         'fasilitas',
         'alamatProperty',
-        'ulasans'
+        'ulasans' => function($query) {
+            $query->orderBy('created_at', 'desc'); // Urutkan dari yang terbaru
+        }
     ]);
 
     return view('content.admin.detail', compact('property'));

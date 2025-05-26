@@ -12,7 +12,8 @@ class FasilitasController extends Controller
      */
     public function index()
     {
-        //
+        $fasilitas = Fasilitas::all();
+        return view('content.admin.fasilitas', compact('fasilitas'));
     }
 
     /**
@@ -28,7 +29,12 @@ class FasilitasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_fasilitas' => 'required|string|max:100|unique:fasilitas'
+        ]);
+    
+        Fasilitas::create($request->only('nama_fasilitas'));
+        return redirect()->route('fasilitas.index')->with('success', 'Fasilitas berhasil ditambahkan');
     }
 
     /**
@@ -52,7 +58,12 @@ class FasilitasController extends Controller
      */
     public function update(Request $request, Fasilitas $fasilitas)
     {
-        //
+        $request->validate([
+            'nama_fasilitas' => 'required|string|max:100|unique:fasilitas,nama_fasilitas,'.$fasilitas->id
+        ]);
+    
+        $fasilitas->update($request->only('nama_fasilitas'));
+        return redirect()->route('fasilitas.index')->with('success', 'Fasilitas berhasil diperbarui.');
     }
 
     /**
@@ -60,6 +71,7 @@ class FasilitasController extends Controller
      */
     public function destroy(Fasilitas $fasilitas)
     {
-        //
+        $fasilitas->delete();
+    return redirect()->route('fasilitas.index')->with('success', 'Fasilitas berhasil dihapus.');
     }
 }
