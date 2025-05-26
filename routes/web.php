@@ -20,15 +20,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('/dashboard-admin', [AdminController::class, 'index'])->name('dashboard.admin'); //hanya admin yang boleh mengakses
-//     Route::get('/dashboard-pemilik', [PemilikController::class, 'index'])->name('dashboard.pemilik'); //hanya pemilik yang boleh mengakses
-// });
-
-
-
 Route::middleware(['auth', RoleMiddleware::class . ':pemilik'])->group(function () {
     Route::get('/dashboard-pemilik', [PemilikController::class, 'index'])->name('dashboard.pemilik'); //Menampilkan halaman dashboard pemilik
     Route::get('/property/creates', [PropertyController::class, 'create'])->name('property.create'); //Menampilkan halaman form tambah property
@@ -65,14 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit'); //setiap user yang login boleh mengakses
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); //setiap user yang login boleh mengakses
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy'); //setiap user yang login boleh mengakses
-    // Route::get('/property/create', [PropertyController::class, 'create'])->name('property.create'); //hanya pemilik yang boleh mengakses
-    // Route::post('/property/store', [PropertyController::class, 'store'])->name('property.store'); //hanya pemilik yang boleh mengakses
-    // Route::get('/properties', [PropertyController::class, 'show'])->name('properties.show'); //hanya admin yang boleh mengakses
-    // Route::get('/propertys', [PemilikController::class, 'show'])->name('property.show'); //hanya pemilik yang boleh mengakses
-    // Route::get('/pemilik/property/{id}/edit', [PropertyController::class, 'edit'])->name('pemilik.property.edit'); //hanya pemilik yang boleh mengakses
-    // Route::put('/pemilik/property/{id}', [PropertyController::class, 'update'])->name('pemilik.property.update'); //hanya pemilik yang boleh mengakses
-    // Route::delete('/pemilik/property/{id}', [PropertyController::class, 'destroy'])->name('pemilik.property.destroy'); //hanya pemilik yang boleh mengakses
-    // Route::get('/property/{property}', [AdminController::class, 'show'])->name('detail.show'); //hanya admin yang boleh mengakses
     
 });
 
