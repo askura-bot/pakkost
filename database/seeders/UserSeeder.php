@@ -22,13 +22,6 @@ class UserSeeder extends Seeder
                 'no_wa' => '082137787134',
                 'role' => 'admin',
             ],
-            [
-                'name' => 'Owner Kost 1',
-                'email' => 'owner1@gmail.com',
-                'password' => Hash::make('qwerty123'),
-                'no_wa' => '082137787134',
-                'role' => 'pemilik',
-            ],
             // Tambahkan data user lain sesuai kebutuhan
         ];
 

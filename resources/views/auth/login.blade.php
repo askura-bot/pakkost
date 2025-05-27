@@ -55,15 +55,6 @@
                             >
                             <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
                         </label>
-
-                        @if (Route::has('password.request'))
-                            <a 
-                                href="{{ route('password.request') }}" 
-                                class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
-                            >
-                                Lupa Password?
-                            </a>
-                        @endif
                     </div>
 
                     <x-primary-button class="w-full justify-center py-3">

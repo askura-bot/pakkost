@@ -2,6 +2,7 @@
 
 use App\Models\Property;
 use App\Models\Fasilitas;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\UserController;
@@ -12,13 +13,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\FasilitasController;
 
-Route::get('/login', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/login', function () {return view('welcome');});
+Route::get('/dashboard', function () {return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', RoleMiddleware::class . ':pemilik'])->group(function () {
     Route::get('/dashboard-pemilik', [PemilikController::class, 'index'])->name('dashboard.pemilik'); //Menampilkan halaman dashboard pemilik

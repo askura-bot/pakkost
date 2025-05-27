@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-8">
-    @foreach($properties as $property)
+    @forelse($properties as $property)
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
         <!-- Foto Utama -->
         <div class="relative">
@@ -114,6 +114,13 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @empty
+        <div class="col-span-full text-center py-20 text-gray-600 dark:text-gray-300">
+            <svg class="mx-auto mb-4 w-16 h-16 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
+              </svg>              
+            <p class="text-xl font-semibold">Property masih kosong</p>
+        </div>
+    @endforelse
 </div>
 @endsection

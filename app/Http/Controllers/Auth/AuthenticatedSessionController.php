@@ -37,7 +37,6 @@ class AuthenticatedSessionController extends Controller
     } elseif ($user->role === 'pemilik') {
         return redirect()->route('dashboard.pemilik');
     }
-
     return redirect('/');
     }
 
@@ -55,4 +54,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    
 }

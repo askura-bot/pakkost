@@ -45,9 +45,8 @@
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 -translate-y-2"
          style="display: none;">
-      <a href="#" class="block px-4 py-2 border-b border-gray-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Home</a>
-      <a href="#" class="block px-4 py-2 border-b border-gray-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition">About</a>
-      <a href="#" class="block px-4 py-2 border-b border-gray-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Services</a>
-      <a href="#" class="block px-4 py-2 hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Contact</a>
+      <a href="{{ route('home') }}" class="block px-4 py-2 border-b border-gray-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Home</a>
+      <a href="{{ route('contact') }}" class="block px-4 py-2 border-b border-gray-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Contact</a>
+      <a href="{{ route('login') }}" class="block px-4 py-2 border-b border-gray-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition">Owner Centre</a>
     </div>
   </nav>
