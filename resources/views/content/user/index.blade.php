@@ -2,40 +2,40 @@
 
 @section('content')
 
-<div class="px-4 py-8" x-data="{ showFilters: false }"> 
+<div class="px-4 py-8" x-data="{ showFilters: false }" id="filter-section"> 
     <!-- Search Bar + Filter Button Container -->
-    <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between items-stretch">
-        <!-- Search Form - Takes available space -->
-        <form method="GET" action="{{ route('home') }}" class="flex-1 md:max-w-[calc(100%-160px)]">
-            <div class="relative h-full">
+    <div class="mb-6 flex flex-col md:flex-row gap-4">
+        <!-- Search Form - Lebih panjang -->
+        <form method="GET" action="{{ route('home') }}#filter-section" class="flex-grow">
+            <div class="relative">
                 <input 
                     type="text" 
                     name="search" 
                     placeholder="Cari nama properti..." 
                     value="{{ request('search') }}"
-                    class="w-full h-full pl-4 pr-10 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full pl-4 pr-10 py-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                 <button 
                     type="submit"
-                    class="absolute right-2 top-2 text-gray-400 dark:text-gray-300 hover:text-blue-500"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300 hover:text-blue-500"
                 >
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </button>
             </div>
         </form>
 
-        <!-- Tombol Filter - Fixed width -->
-        <div class="flex-shrink-0 w-full md:w-auto">
+        <!-- Tombol Filter - Lebih kompak -->
+        <div class="flex-shrink-0">
             <button 
                 @click="showFilters = !showFilters"
-                class="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                class="h-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-colors whitespace-nowrap"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
                 </svg>
-                Filter Pencarian
+                Filter
             </button>
         </div>
     </div>
@@ -120,7 +120,7 @@
     </div>
 
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-8">
+    <div id="daftar-properti" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-8">
         @foreach($properties as $property)
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <!-- Foto Utama -->
@@ -259,5 +259,16 @@
 
 </div>
 
+<!-- Script untuk scroll otomatis -->
+@if(request()->hasAny(['min_harga', 'max_harga', 'kelurahan', 'jalan', 'rt', 'rw', 'fasilitas']))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterSection = document.getElementById('filter-section');
+        if (filterSection) {
+            filterSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+</script>
+@endif
 
 @endsection

@@ -59,7 +59,12 @@ class UserController extends Controller
     $properties = $query->get();
     $fasilitasOptions = Fasilitas::all(); // Untuk dropdown/checkbox
 
-    return view('content.user.index', compact('properties', 'fasilitasOptions'));
+    return view('content.user.index', [
+        'properties' => $properties,
+        'fasilitasOptions' => $fasilitasOptions,
+        // Tambahkan parameter request untuk scroll otomatis
+        'request' => $request
+    ]);
     }
 
     public function contact()

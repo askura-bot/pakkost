@@ -13,7 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\FasilitasController;
 
-Route::get('/login', function () {return view('welcome');});
+Route::get('/login', function () {return view('welcome');})->name('login');
 Route::get('/dashboard', function () {return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', RoleMiddleware::class . ':pemilik'])->group(function () {
