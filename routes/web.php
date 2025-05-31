@@ -40,12 +40,12 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function ()
     Route::post('/fasilitas', [FasilitasController::class, 'store'])->name('fasilitas.store'); //Mengirim data form tambah fasilitas
     Route::put('/fasilitas/{fasilitas}', [FasilitasController::class, 'update'])->name('fasilitas.update'); //Mengirim data form edit fasilitas
     Route::delete('/fasilitas/{fasilitas}', [FasilitasController::class, 'destroy'])->name('fasilitas.destroy'); //Menghapus data fasilitas
-    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
-    Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
-    Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
-    Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
-    Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');
-    Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index'); //Menampilkan seluruh kontak web
+    Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create'); //Menampilkan halaman form tambah kontak
+    Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store'); //Mengirim data form tambah kontak
+    Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit'); //Menampilkan halaman form edit kontak
+    Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update'); //Mengirim data form edit kontak
+    Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy'); //Menghapus data kontak
 });
 
 Route::middleware('auth')->group(function () {

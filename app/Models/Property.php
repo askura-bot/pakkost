@@ -49,5 +49,10 @@ class Property extends Model
     {
         return $this->belongsToMany(Fasilitas::class, 'fasilitas_property', 'property_id', 'fasilitas_id');
     }
+
+    public function getRemainingImageSlotsAttribute()
+    {
+        return max(0, 5 - $this->fotos()->count());
+    }
 }
 

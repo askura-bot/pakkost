@@ -92,13 +92,20 @@
                     <div class="space-y-6">
                         <!-- Foto Upload -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Foto</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Foto (Maks. 5)</label>
+                            
+                            <!-- Pesan error jika melebihi batas -->
+                            <div id="max-file-error" class="hidden mb-3 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                <p>Anda hanya dapat mengupload maksimal 5 gambar!</p>
+                            </div>
+                            
                             <div class="relative group border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center hover:border-blue-500 dark:hover:border-blue-500 transition duration-200"
                                  id="file-upload-container">
                                 <input type="file" name="foto[]" multiple accept="image/*" 
                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                        id="file-input"
-                                       onchange="updateFileList(this)">
+                                       onchange="updateFileList(this)"
+                                       max="5">
                                 <div class="pointer-events-none" id="upload-placeholder">
                                     <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -106,7 +113,7 @@
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
                                         <span class="font-medium text-blue-600 dark:text-blue-400">Upload foto</span> atau drag & drop
                                     </p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">PNG, JPG maks. 2MB per file</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">PNG, JPG maks. 2MB per file (Maks. 5 file)</p>
                                 </div>
                                 <div id="file-list" class="mt-4 text-left hidden"></div>
                             </div>
@@ -115,43 +122,60 @@
 
                     <script>
                         function updateFileList(input) {
-                            const fileList = document.getElementById('file-list');
-                            const placeholder = document.getElementById('upload-placeholder');
-                            const container = document.getElementById('file-upload-container');
-                            
-                            fileList.innerHTML = '';
-                            placeholder.classList.add('hidden');
-                            fileList.classList.remove('hidden');
-                            container.classList.remove('border-dashed');
+                        const fileList = document.getElementById('file-list');
+                        const placeholder = document.getElementById('upload-placeholder');
+                        const container = document.getElementById('file-upload-container');
+                        const errorMessage = document.getElementById('max-file-error');
                         
-                            if (input.files.length > 0) {
-                                const files = Array.from(input.files);
-                                const list = document.createElement('div');
-                                
-                                files.forEach((file, index) => {
-                                    const fileItem = document.createElement('div');
-                                    fileItem.className = 'flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-lg mb-2';
-                                    fileItem.innerHTML = `
-                                        <span class="text-sm text-gray-700 dark:text-gray-300 truncate">${file.name}</span>
-                                        <span class="text-xs text-gray-500 dark:text-gray-400">${(file.size/1024/1024).toFixed(2)}MB</span>
-                                    `;
-                                    list.appendChild(fileItem);
-                                });
+                        // Reset state
+                        errorMessage.classList.add('hidden');
                         
-                                const changeButton = document.createElement('button');
-                                changeButton.type = 'button';
-                                changeButton.className = 'mt-4 text-sm text-blue-600 dark:text-blue-400 hover:underline';
-                                changeButton.textContent = 'Ubah File';
-                                changeButton.onclick = () => document.getElementById('file-input').click();
-                                
-                                fileList.appendChild(list);
-                                fileList.appendChild(changeButton);
-                            } else {
-                                placeholder.classList.remove('hidden');
-                                fileList.classList.add('hidden');
-                                container.classList.add('border-dashed');
-                            }
+                        // Periksa jumlah file
+                        if (input.files.length > 5) {
+                            errorMessage.classList.remove('hidden');
+                            input.value = ''; // Reset input file
+                            return;
                         }
+                        
+                        fileList.innerHTML = '';
+                        placeholder.classList.add('hidden');
+                        fileList.classList.remove('hidden');
+                        container.classList.remove('border-dashed');
+                    
+                        if (input.files.length > 0) {
+                            const files = Array.from(input.files);
+                            const list = document.createElement('div');
+                            
+                            files.forEach((file, index) => {
+                                const fileItem = document.createElement('div');
+                                fileItem.className = 'flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-lg mb-2';
+                                fileItem.innerHTML = `
+                                    <span class="text-sm text-gray-700 dark:text-gray-300 truncate">${file.name}</span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">${(file.size/1024/1024).toFixed(2)}MB</span>
+                                `;
+                                list.appendChild(fileItem);
+                            });
+                    
+                            // Tambahkan counter
+                            const counter = document.createElement('div');
+                            counter.className = 'text-sm text-gray-600 dark:text-gray-400 mt-2';
+                            counter.innerHTML = `File terpilih: ${files.length}/5`;
+                            
+                            const changeButton = document.createElement('button');
+                            changeButton.type = 'button';
+                            changeButton.className = 'mt-4 text-sm text-blue-600 dark:text-blue-400 hover:underline';
+                            changeButton.textContent = 'Ubah File';
+                            changeButton.onclick = () => document.getElementById('file-input').click();
+                            
+                            fileList.appendChild(list);
+                            fileList.appendChild(counter);
+                            fileList.appendChild(changeButton);
+                        } else {
+                            placeholder.classList.remove('hidden');
+                            fileList.classList.add('hidden');
+                            container.classList.add('border-dashed');
+                        }
+                    }
                         </script>
 
                 <!-- Alamat Section -->

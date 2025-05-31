@@ -118,13 +118,29 @@
 
         <!-- Upload Foto Baru -->
         <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Foto Baru (maks 2MB)</label>
+            @php
+                $currentPhotos = $property->fotos->count();
+                $availableSlots = 5 - $currentPhotos;
+            @endphp
+
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Upload Foto Baru (Slot tersisa: {{ $availableSlots }})
+            </label>
+            
+            <!-- Pesan error jika slot penuh -->
+            @if($availableSlots <= 0)
+                <div class="mb-3 p-3 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded-md">
+                    <p>Anda telah mencapai batas maksimal 5 gambar. Tidak dapat menambahkan gambar lagi.</p>
+                </div>
+            @endif
+
             <div class="relative group border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center hover:border-blue-500 dark:hover:border-blue-500 transition duration-200"
                 id="file-upload-container">
                 <input type="file" name="fotos[]" multiple accept="image/*" 
                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     id="file-input"
-                    onchange="updateFileList(this)">
+                    onchange="updateFileList(this)"
+                    @if($availableSlots <= 0) disabled @endif>
                 <div class="pointer-events-none" id="upload-placeholder">
                     <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -133,6 +149,9 @@
                         <span class="font-medium text-blue-600 dark:text-blue-400">Upload foto</span> atau drag & drop
                     </p>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">PNG, JPG maks. 2MB per file</p>
+                    @if($availableSlots <= 0)
+                        <p class="text-xs text-red-500 dark:text-red-400 mt-2">Slot gambar penuh (maks. 5)</p>
+                    @endif
                 </div>
                 <div id="file-list" class="mt-4 text-left hidden"></div>
             </div>
@@ -143,13 +162,22 @@
                 const fileList = document.getElementById('file-list');
                 const placeholder = document.getElementById('upload-placeholder');
                 const container = document.getElementById('file-upload-container');
+                const availableSlots = {{ $availableSlots }};
                 
                 fileList.innerHTML = '';
-                placeholder.classList.add('hidden');
-                fileList.classList.remove('hidden');
-                container.classList.remove('border-dashed');
-            
+                
+                // Periksa jumlah file
+                if (input.files.length > availableSlots) {
+                    alert(`Anda hanya dapat menambahkan maksimal ${availableSlots} gambar lagi!`);
+                    input.value = ''; // Reset input file
+                    return;
+                }
+                
                 if (input.files.length > 0) {
+                    placeholder.classList.add('hidden');
+                    fileList.classList.remove('hidden');
+                    container.classList.remove('border-dashed');
+                    
                     const files = Array.from(input.files);
                     const list = document.createElement('div');
                     
@@ -162,7 +190,12 @@
                         `;
                         list.appendChild(fileItem);
                     });
-            
+                    
+                    // Tambahkan counter
+                    const counter = document.createElement('div');
+                    counter.className = 'text-sm text-gray-600 dark:text-gray-400 mt-2';
+                    counter.innerHTML = `File terpilih: ${files.length}/${availableSlots}`;
+                    
                     const changeButton = document.createElement('button');
                     changeButton.type = 'button';
                     changeButton.className = 'mt-4 text-sm text-blue-600 dark:text-blue-400 hover:underline';
@@ -170,6 +203,7 @@
                     changeButton.onclick = () => document.getElementById('file-input').click();
                     
                     fileList.appendChild(list);
+                    fileList.appendChild(counter);
                     fileList.appendChild(changeButton);
                 } else {
                     placeholder.classList.remove('hidden');
@@ -177,7 +211,7 @@
                     container.classList.add('border-dashed');
                 }
             }
-            </script>
+        </script>
 
         <!-- Foto Lama -->
         @if($property->fotos->isNotEmpty())

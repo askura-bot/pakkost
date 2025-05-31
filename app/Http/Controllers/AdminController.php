@@ -71,9 +71,20 @@ class AdminController extends Controller
     return view('content.admin.admin', compact('admins'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('content.admin.create-akun');
+        $role = '';
+    
+    // Cek referer halaman
+    $referer = $request->headers->get('referer');
+    
+    if (strpos($referer, route('owner.show')) !== false) {
+        $role = 'pemilik';
+    } elseif (strpos($referer, route('admin.show')) !== false) {
+        $role = 'admin';
+    }
+
+    return view('content.admin.create-akun', compact('role'));
     }
 
     public function store(Request $request)

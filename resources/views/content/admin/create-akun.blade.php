@@ -117,14 +117,30 @@
                             <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 Role
                             </label>
-                            <select name="role" id="role" 
-                                    class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 
-                                           focus:border-blue-500 focus:ring-blue-500 dark:text-gray-200"
-                                    required>
-                                <option value="">Pilih Role</option>
-                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="pemilik" {{ old('role') == 'pemilik' ? 'selected' : '' }}>Pemilik</option>
-                            </select>
+                            
+                            @if($role)
+                                <!-- Tampilkan role otomatis (hidden input + disabled select) -->
+                                <input type="hidden" name="role" value="{{ $role }}">
+                                <select id="role" 
+                                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 
+                                               focus:border-blue-500 focus:ring-blue-500 dark:text-gray-200"
+                                        disabled>
+                                    <option value="{{ $role }}" selected>
+                                        {{ $role === 'admin' ? 'Admin' : 'Pemilik' }}
+                                    </option>
+                                </select>
+                            @else
+                                <!-- Tampilkan dropdown biasa -->
+                                <select name="role" id="role" 
+                                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 
+                                               focus:border-blue-500 focus:ring-blue-500 dark:text-gray-200"
+                                        required>
+                                    <option value="">Pilih Role</option>
+                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="pemilik" {{ old('role') == 'pemilik' ? 'selected' : '' }}>Pemilik</option>
+                                </select>
+                            @endif
+                            
                             @error('role')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror

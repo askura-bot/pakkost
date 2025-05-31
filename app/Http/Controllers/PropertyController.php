@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\AlamatProperty;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PropertyController extends Controller
 {
@@ -33,7 +34,7 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'nama_properti' => 'required|string|max:255',
             'alamat' => 'required|string',
             'tipe' => 'required|in:putra,putri,campur,kontrakan,kost',
@@ -47,7 +48,17 @@ class PropertyController extends Controller
             'foto.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'link_VT' => 'nullable|url',
             'fasilitas' => 'required|array',
+            'foto' => 'max:5', ], 
+            ['foto.max' => 'Anda hanya dapat mengupload maksimal 5 gambar',
+             'foto.*.max' => 'Setiap gambar tidak boleh lebih dari 2MB',
+             'foto.*.mimes' => 'Format file harus berupa jpg, jpeg, png, atau webp',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
         // Simpan property
         $property = Property::create([
@@ -122,7 +133,20 @@ class PropertyController extends Controller
     
     public function update(Request $request, $id)
     {
-    $request->validate([
+    // Dapatkan properti
+    $property = Property::where('user_id', Auth::id())->findOrFail($id);
+    
+    // Hitung jumlah foto saat ini
+    $currentPhotoCount = $property->fotos()->count();
+    
+    // Hitung jumlah foto yang akan dihapus
+    $deletePhotoCount = $request->has('hapus_foto') ? count($request->hapus_foto) : 0;
+    
+    // Hitung jumlah slot yang tersedia untuk foto baru
+    $availableSlots = 5 - ($currentPhotoCount - $deletePhotoCount);
+    
+    // Validasi
+    $validator = Validator::make($request->all(), [
         'nama_properti' => 'required|string|max:255',
         'harga' => 'required|numeric',
         'tipe' => 'required|in:putra,putri,campur,kontrakan,kost',
@@ -133,9 +157,30 @@ class PropertyController extends Controller
         'rt' => 'required|string|max:5',
         'rw' => 'required|string|max:5',
         'fasilitas' => 'array',
+        'fotos' => $availableSlots > 0 ? 'array|max:' . $availableSlots : 'array|max:0',
         'fotos.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         'hapus_foto' => 'array', 
+    ], [
+        'fotos.max' => 'Anda hanya dapat menambahkan maksimal :max gambar lagi',
+        'fotos.*.max' => 'Setiap gambar tidak boleh lebih dari 2MB',
+        'fotos.*.mimes' => 'Format file harus berupa jpg, jpeg, png, atau webp',
     ]);
+
+    // Validasi tambahan untuk total gambar
+    if ($request->hasFile('fotos')) {
+        $newPhotoCount = count($request->file('fotos'));
+        $totalPhotos = ($currentPhotoCount - $deletePhotoCount) + $newPhotoCount;
+        
+        if ($totalPhotos > 5) {
+            $validator->errors()->add('fotos', 'Total gambar tidak boleh lebih dari 5. Slot tersisa: ' . $availableSlots);
+        }
+    }
+
+    if ($validator->fails()) {
+        return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+    }
 
     $property = Property::where('user_id', Auth::id())->findOrFail($id);
 
